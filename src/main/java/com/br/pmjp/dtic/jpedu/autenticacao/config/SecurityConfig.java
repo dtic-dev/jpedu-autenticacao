@@ -1,4 +1,4 @@
-package com.br.pmjp.dtic.jpedu.autenticacao.jpedu.autenticacao.config;
+package com.br.pmjp.dtic.jpedu.autenticacao.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;

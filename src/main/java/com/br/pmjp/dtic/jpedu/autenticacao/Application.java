@@ -1,4 +1,4 @@
-package com.br.pmjp.dtic.jpedu.autenticacao.jpedu.autenticacao;
+package com.br.pmjp.dtic.jpedu.autenticacao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

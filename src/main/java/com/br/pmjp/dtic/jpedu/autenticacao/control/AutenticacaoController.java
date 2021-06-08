@@ -1,10 +1,10 @@
-package com.br.pmjp.dtic.jpedu.autenticacao.jpedu.autenticacao.control;
+package com.br.pmjp.dtic.jpedu.autenticacao.control;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AutenticacaoControler {
+public class AutenticacaoController {
 
 	@GetMapping("/")
 	public String home() {

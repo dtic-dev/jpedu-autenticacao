@@ -1,4 +1,4 @@
-package com.br.pmjp.dtic.jpedu.autenticacao.jpedu.autenticacao;
+package com.br.pmjp.dtic.jpedu.autenticacao;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

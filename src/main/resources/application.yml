@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    password: <senha>
+    url: jdbc:mysql://localhost:3306/jpedu?serverTimezone=UTC
+    username: <user>
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  security:
+    oauth2:
+      client:
+        registration:
+         google:
+          clientId: <client-id>
+          clientSecret: <client-secret>
+          scope:
+           - email
+           - profile

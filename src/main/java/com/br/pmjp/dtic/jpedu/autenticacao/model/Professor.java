@@ -6,15 +6,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 
-@Entity
-public class Professor {
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-	@Id
+@Entity
+@Data
+public class Professor extends UsuarioAcesso {
+
+	@Id @Getter
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@Email
+	@Email @Getter @Setter
 	private String email;
+	
+	@Getter @Setter
+	private String matricula;
 	
 //	jonny.wilson@educa.joaopessoa.pb.gov.br
 	

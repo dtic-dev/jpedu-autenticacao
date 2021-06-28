@@ -3,7 +3,7 @@ package com.br.pmjp.dtic.jpedu.autenticacao.control;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+//@RestController
 public class AutenticacaoController {
 
 	@GetMapping("/")

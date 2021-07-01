@@ -26,7 +26,6 @@ public class UsuarioAcessoService {
 			
 			System.out.println("Created new user: " + username);
 		}
-		
 	}
 	
 }

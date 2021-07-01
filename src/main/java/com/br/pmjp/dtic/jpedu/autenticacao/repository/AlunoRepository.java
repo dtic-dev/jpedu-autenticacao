@@ -6,4 +6,5 @@ import com.br.pmjp.dtic.jpedu.autenticacao.model.Aluno;
 
 public interface AlunoRepository extends JpaRepository<Aluno, Integer> {
 
+	Aluno findByEmail(String email);
 }

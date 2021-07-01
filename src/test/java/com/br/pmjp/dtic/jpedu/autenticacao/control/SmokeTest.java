@@ -10,11 +10,8 @@ import com.br.pmjp.dtic.jpedu.autenticacao.control.AutenticacaoController;
 @SpringBootTest
 public class SmokeTest {
 
-	@Autowired
-	private AutenticacaoController controller;
-	
 	@Test
 	public void contextLoads() throws Exception {
-		Assertions.assertThat(controller).isNotNull();
+		
 	}
 }

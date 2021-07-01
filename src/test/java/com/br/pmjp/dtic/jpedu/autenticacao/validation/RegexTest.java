@@ -24,7 +24,7 @@ public class RegexTest {
 	public void validateEmailProfessor() throws Exception {
 		final String email = "joao.bavieira@professor.joaopessoa.pb.gov.br";
 		
-		boolean matches = emailValidation.verificarRegex(email);
+		boolean matches = emailValidation.verificarEmailProfessor(email);
 	    assertEquals(matches, true);
 	}
 	
@@ -32,7 +32,7 @@ public class RegexTest {
 	public void validateEmailAluno() throws Exception {
 		final String email = "kaue.lffreitas@aluno.joaopessoa.pb.gov.br";
 		
-		boolean matches = emailValidation.verificarRegex(email);
+		boolean matches = emailValidation.verificarEmailAluno(email);
 	    assertEquals(matches, true);
 	}
 	

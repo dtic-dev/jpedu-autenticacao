@@ -6,4 +6,6 @@ import com.br.pmjp.dtic.jpedu.autenticacao.model.Professor;
 
 public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
 
+	Professor findByEmail(String email);
+	
 }

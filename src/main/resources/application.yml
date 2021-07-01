@@ -1,8 +1,8 @@
 spring:
   datasource:
-    password: <senha>
+    password: 12345678
     url: jdbc:mysql://localhost:3306/jpedu?serverTimezone=UTC
-    username: <user>
+    username: root
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,8 +12,8 @@ spring:
       client:
         registration:
          google:
-          clientId: <client-id>
-          clientSecret: <client-secret>
+          clientId: 450033227192-o3tpl4terk7qifc93u2vsp6m8frdvvs5.apps.googleusercontent.com
+          clientSecret: Llzc1-ADSv7xWs6VZBsDlBF4
           scope:
            - email
            - profile

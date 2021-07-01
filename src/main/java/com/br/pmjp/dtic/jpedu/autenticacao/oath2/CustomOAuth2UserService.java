@@ -21,6 +21,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService  {
 		System.out.println("CustomOAuth2UserService invoked");
 		CustomOAuth2User auth2User = new CustomOAuth2User(user);
 		boolean validation = emailValidation.verificarRegex(auth2User.getEmail());
+		
 		return validation ? new CustomOAuth2User(user) : null;
 	}
 

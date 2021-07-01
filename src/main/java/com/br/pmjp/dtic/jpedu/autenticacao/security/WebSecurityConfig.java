@@ -19,8 +19,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.br.pmjp.dtic.jpedu.autenticacao.model.Aluno;
+import com.br.pmjp.dtic.jpedu.autenticacao.model.Professor;
 import com.br.pmjp.dtic.jpedu.autenticacao.oath2.CustomOAuth2User;
 import com.br.pmjp.dtic.jpedu.autenticacao.oath2.CustomOAuth2UserService;
+import com.br.pmjp.dtic.jpedu.autenticacao.service.AlunoService;
+import com.br.pmjp.dtic.jpedu.autenticacao.service.ProfessorService;
 import com.br.pmjp.dtic.jpedu.autenticacao.service.UsuarioAcessoService;
 
 @Configuration
@@ -32,6 +36,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UsuarioAcessoService usuarioAcessoService;
+	
+	@Autowired
+	private AlunoService alunoService;
+	
+	@Autowired
+	private ProfessorService professorService;
 	
 	@Bean
 	public UserDetailsService userDetailsService() {
@@ -85,7 +95,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						
 						usuarioAcessoService.processOAuthPostLogin(oauthUser.getEmail());
 						
-						response.sendRedirect("/list");
+						Aluno aluno = alunoService.getAluno(oauthUser.getEmail());
+						Professor professor = professorService.getProfessor(oauthUser.getEmail());
+//						if(aluno == null || professor == null) {
+//							response.sendRedirect("/erro");
+//						}
+						
+						response.sendRedirect("/sucesso");
 					}
 				})
 				//.defaultSuccessUrl("/list")

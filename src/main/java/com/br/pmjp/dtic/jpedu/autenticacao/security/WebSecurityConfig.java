@@ -2,6 +2,7 @@ package com.br.pmjp.dtic.jpedu.autenticacao.security;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import com.br.pmjp.dtic.jpedu.autenticacao.model.Aluno;
 import com.br.pmjp.dtic.jpedu.autenticacao.model.Professor;
+import com.br.pmjp.dtic.jpedu.autenticacao.model.UsuarioAcesso;
 import com.br.pmjp.dtic.jpedu.autenticacao.oath2.CustomOAuth2User;
 import com.br.pmjp.dtic.jpedu.autenticacao.oath2.CustomOAuth2UserService;
 import com.br.pmjp.dtic.jpedu.autenticacao.service.AlunoService;
@@ -93,15 +95,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						System.out.println("Authentication name: " + authentication.getName());
 						CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 						
-						usuarioAcessoService.processOAuthPostLogin(oauthUser.getEmail());
+						usuarioAcessoService.processOAuthPostLogin(oauthUser.getEmail(), authentication.getName());
 						
 						Aluno aluno = alunoService.getAluno(oauthUser.getEmail());
 						Professor professor = professorService.getProfessor(oauthUser.getEmail());
+						UsuarioAcesso usuarioAcesso = usuarioAcessoService.getUsuarioAcesso(oauthUser.getEmail());
 //						if(aluno == null || professor == null) {
 //							response.sendRedirect("/erro");
 //						}
-						
-						response.sendRedirect("/sucesso");
+						RequestDispatcher dispatcher = request.getRequestDispatcher("/sucesso");
+						request.setAttribute("nome", authentication.getName());
+						// TODO encontrar um forma de enviar a imagem
+						dispatcher.forward(request, response);
 					}
 				})
 				//.defaultSuccessUrl("/list")

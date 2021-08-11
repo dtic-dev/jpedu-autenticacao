@@ -1,9 +1,8 @@
 package com.br.pmjp.dtic.jpedu.autenticacao.security;
 
-import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,16 +12,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.br.pmjp.dtic.jpedu.autenticacao.model.Aluno;
-import com.br.pmjp.dtic.jpedu.autenticacao.model.Professor;
-import com.br.pmjp.dtic.jpedu.autenticacao.model.UsuarioAcesso;
 import com.br.pmjp.dtic.jpedu.autenticacao.oath2.CustomOAuth2User;
 import com.br.pmjp.dtic.jpedu.autenticacao.oath2.CustomOAuth2UserService;
 import com.br.pmjp.dtic.jpedu.autenticacao.service.AlunoService;
@@ -70,6 +67,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs",
+                                   "/configuration/ui",
+                                   "/swagger-resources/**",
+                                   "/configuration/security",
+                                   "/swagger-ui.html",
+                                   "/webjars/**");
+    }
+	
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/", "/login", "/oauth/**").permitAll()
@@ -85,31 +92,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login")
 				.userInfoEndpoint()
 					.userService(oauthUserService)
-				.and()
-				.successHandler(new AuthenticationSuccessHandler() {
-					
-					@Override
-					public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-							Authentication authentication) throws IOException, ServletException {
+				.and().failureHandler(null)
+				.successHandler((HttpServletRequest request, HttpServletResponse response,
+							Authentication authentication) -> {
 						System.out.println("AuthenticationSuccessHandler invoked");
-						System.out.println("Authentication name: " + authentication.getName());
+						System.out.println("Authentication nome: " + authentication.getName());
 						CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+						Map<String, Object> attributes = oauthUser.getAttributes();
 						
 						usuarioAcessoService.processOAuthPostLogin(oauthUser.getEmail(), authentication.getName());
 						
-						Aluno aluno = alunoService.getAluno(oauthUser.getEmail());
-						Professor professor = professorService.getProfessor(oauthUser.getEmail());
-						UsuarioAcesso usuarioAcesso = usuarioAcessoService.getUsuarioAcesso(oauthUser.getEmail());
-//						if(aluno == null || professor == null) {
-//							response.sendRedirect("/erro");
-//						}
 						RequestDispatcher dispatcher = request.getRequestDispatcher("/sucesso");
 						request.setAttribute("nome", authentication.getName());
+						request.setAttribute("email", attributes.get("email"));
+						request.setAttribute("imagem", attributes.get("picture"));
 						// TODO encontrar um forma de enviar a imagem
 						dispatcher.forward(request, response);
-					}
-				})
-				//.defaultSuccessUrl("/list")
+					})
+			.failureHandler((HttpServletRequest request, HttpServletResponse response,
+					AuthenticationException authentication) -> {
+				System.out.println("AuthenticationFailureHandler invoked");
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/error	");
+				// TODO encontrar um forma de enviar a imagem
+				dispatcher.forward(request, response);
+			})
 			.and()
 			.logout().logoutSuccessUrl("/").permitAll()
 			.and()

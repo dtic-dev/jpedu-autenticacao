@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.br.pmjp.dtic.jpedu.autenticacao.dto.UsuarioDTO;
+
 @RestController
 public class AutenticacaoController {
 
@@ -28,7 +30,11 @@ public class AutenticacaoController {
 	
 	@RequestMapping(value="sucesso", method = RequestMethod.GET, produces = "application/json" )
 	@ResponseBody
-	public String sucesso(@RequestAttribute String nome) {
-		return nome;
+	public UsuarioDTO sucesso(@RequestAttribute String nome, @RequestAttribute String email, @RequestAttribute String imagem) {
+		UsuarioDTO usuarioDTO = new UsuarioDTO();
+		usuarioDTO.setEmail(email);
+		usuarioDTO.setImagem(imagem);
+		usuarioDTO.setNome(nome);
+		return usuarioDTO;
 	}
 }
